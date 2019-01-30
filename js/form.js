@@ -1,5 +1,10 @@
 'use strict';
 (function () {
+  var BUNGALO_MIN_PRICE = '0';
+  var FLAT_MIN_PRICE = '1000';
+  var HOUSE_MIN_PRICE = '5000';
+  var PALACE_MIN_PRICE = '10000';
+
   var form = window.utils.notice.querySelector('.ad-form');
   // ----- Функция при удачной отправке данных
   var onSuccess = function () {
@@ -23,10 +28,10 @@
   var typeSelect = window.utils.notice.querySelector('#type');
   var priceField = window.utils.notice.querySelector('#price');
   var TypePriceMap = {
-    bungalo: '0',
-    flat: '1000',
-    house: '5000',
-    palace: '10000'
+    bungalo: BUNGALO_MIN_PRICE,
+    flat: FLAT_MIN_PRICE,
+    house: HOUSE_MIN_PRICE,
+    palace: PALACE_MIN_PRICE
   };
 
   // ----- Изменение мин стоимости от типа объекта

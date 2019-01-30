@@ -3,7 +3,9 @@
   var form = window.utils.notice.querySelector('.ad-form');
   var closeCardHandler = function () {
     var addedCard = window.utils.map.querySelector('.map__card');
-    addedCard.remove();
+    if (addedCard !== null) {
+      addedCard.remove();
+    }
   };
   // ----- Для очистки превью картинок
   var adImagePreview = document.querySelector('.ad-form__photo').children[0];

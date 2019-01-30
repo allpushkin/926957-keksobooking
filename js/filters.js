@@ -1,6 +1,11 @@
 'use strict';
 (function () {
   var FILTER_TYPE_ANY = 'any';
+  var FILTER_PRICE_LOW = 'low';
+  var FILTER_PRICE_MIDDLE = 'middle';
+  var FILTER_PRICE_HIGH = 'high';
+  var FILTER_PRICE_LOW_VALUE = '10000';
+  var FILTER_PRICE_HIGH_VALUE = '50000';
 
   // ----- Переменные для фильтрации пинов на карте
   var mapFilters = document.querySelector('.map__filters');
@@ -18,22 +23,6 @@
     features: []
   };
 
-  var checkLowPrice = function (price) {
-    return price > 10000;
-  };
-  var checkMiddlePrice = function (price) {
-    return price < 10000 || price > 50000;
-  };
-  var checkHighPrice = function (price) {
-    return price < 50000;
-  };
-
-  var priceFilterMap = {
-    low: checkLowPrice,
-    middle: checkMiddlePrice,
-    high: checkHighPrice
-  };
-
   var removePinsCard = function () {
     var addedCard = window.utils.map.querySelector('.map__card, .popup');
     if (addedCard) {
@@ -46,11 +35,24 @@
     );
   };
 
+  var checkAdPrice = function (selectedPrice, adPrice) {
+    switch (selectedPrice) {
+      case FILTER_PRICE_LOW:
+        return adPrice > FILTER_PRICE_LOW_VALUE;
+      case FILTER_PRICE_MIDDLE:
+        return adPrice < FILTER_PRICE_LOW_VALUE || adPrice > FILTER_PRICE_HIGH_VALUE;
+      case FILTER_PRICE_HIGH:
+        return adPrice < FILTER_PRICE_HIGH_VALUE;
+      default:
+        return false;
+    }
+  };
+
   var filterPins = function () {
     var filteredAds = window.map.allAds.filter(function (ad) {
       if (filters.type !== FILTER_TYPE_ANY && ad.offer.type !== filters.type) {
         return false;
-      } else if (filters.price !== FILTER_TYPE_ANY && priceFilterMap[mapFilterPrice.value](ad.offer.price)) {
+      } else if (filters.price !== FILTER_TYPE_ANY && checkAdPrice(mapFilterPrice.value, ad.offer.price)) {
         return false;
       } else if (filters.rooms !== FILTER_TYPE_ANY && ad.offer.rooms.toString() !== filters.rooms) {
         return false;
